@@ -43,7 +43,7 @@ idea {
 // ForgeGradle
 ///////////////////////////////////////////////////
 version = (hasProperty("CIRevision") ? CIRevision : config.mod_version)
-group = config.group_name
+group = project.hasProperty('group') ? project.getProperties().get('group') : config.group_name
 archivesBaseName = "${config.mod_id}-${config.minecraft_version}"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
