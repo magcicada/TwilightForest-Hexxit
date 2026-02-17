@@ -1,0 +1,11 @@
+jdk:
+  - openjdk8
+
+install:
+  # 强制运行 build 确保触发 reobfJar 任务
+  - ./gradlew build -x test
+
+# 明确告诉 JitPack 哪个文件才是真正的产物
+artifacts:
+  - path: "build/libs/*-universal.jar" # 匹配在 GitHub Action 中文件名
+    exclude: ["*-sources.jar"]         # 排除掉干扰项
