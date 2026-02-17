@@ -38,11 +38,24 @@ idea {
         languageLevel = '1.8'
     }
 }
+def getGitHash() {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (Exception e) {
+        return "unknown"
+    }
+}
 
 ///////////////////////////////////////////////////
 // ForgeGradle
 ///////////////////////////////////////////////////
-version = (hasProperty("CIRevision") ? CIRevision : config.mod_version)
+def gitHash = getGitHash()
+version = "${config.mod_version}-${gitHash}"
 group = project.hasProperty('group') ? project.getProperties().get('group') : config.group_name
 archivesBaseName = "${config.mod_id}-${config.minecraft_version}"
 sourceCompatibility = JavaVersion.VERSION_1_8
